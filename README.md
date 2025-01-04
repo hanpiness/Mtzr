@@ -69,4 +69,3 @@ done
 
 ## Acknowledgement
 This repository benefits from [Woodpecker](https://github.com/BradyFU/Woodpecker), [mPLUG-Owl](https://github.com/X-PLUG/mPLUG-Owl), [GroundingDINO](https://github.com/IDEA-Research/GroundingDINO), [BLIP-2](https://huggingface.co/Salesforce/blip2-flan-t5-xxl), and [LLaMA-Adapter](https://github.com/OpenGVLab/LLaMA-Adapter). Thanks for their awesome works.
-```
