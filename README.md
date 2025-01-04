@@ -5,7 +5,7 @@
     <img src="./assets/framework.png" width="96%" height="96%">
 </p>
 
-> Hallucination is a big shadow hanging over the rapidly evolving Multimodal Large Language Models (MLLMs), referring to the phenomenon that the generated text is inconsistent with the image content. In order to mitigate hallucinations, existing studies mainly resort to an instruction-tuning manner that requires retraining the models with specific data. In this paper, we pave a different way, introducing a training-free method named Woodpecker. Like a woodpecker heals trees, it picks out and corrects hallucinations from the generated text. Concretely, Woodpecker consists of five stages: key concept extraction, question formulation, visual knowledge validation, visual claim generation, and hallucination correction. Implemented in a post-remedy manner, Woodpecker can easily serve different MLLMs, while being interpretable by accessing intermediate outputs of the five stages. We evaluate Woodpecker both quantitatively and qualitatively and show the huge potential of this new paradigm. On the POPE benchmark, our method obtains a 30.66%/24.33% improvement in accuracy over the baseline MiniGPT-4/mPLUG-Owl.
+> Hallucinations in multimodal large language models (MLLMs) are urgent problems to be solved in the new era of artificial general intelligence (AGI). Compared with traditional large language models (LLMs), besides handling language understanding and modeling, we also need to consider the detection and position determination of objects in vision. Therefore, to tackle the hallucination issues, the existing studies attempt to employ few-shot learning on the following perspectives: 1) limit the length of the generated response, 2) iteratively generate multiple candidates or select from multiple candidates via beam search, 3) locally edit the possible parts of primary response, and 4) leverage external knowledge to augment the generation capability. To address the above potential weaknesses, this paper proposes a multimodal training-free and zero-shot regeneration approach by obatain various multimodal evidences and globally improving the raw response to alleviate hallucinations in MLLMs (Mtzr). Specifically, we first extract the entity-level evidences by object-based pre-trained models with in-context learning. Then, we mine the attribute-level evidences inside each entity and cross different entities with heterogeneous in-context learning based on both uni- and multimodal pre-trained models. Finally, towards the obtained multimodal evidences, we regenerate the response with augmented context by residually connecting both the input text and image. For better understanding, we provide theoretical explanations with universal approximation to support why our approach can bring about smaller hallucination. Detailed experimental results and extensive analysis demonstrate that our approach is very suitable for mitigating hallucination in MLLMs.
 
 This is the first work to correct hallucination in multimodal large language models. If you have any question, please feel free to email bradyfu24@gmail.com or add weChat ID xjtupanda.
 
@@ -32,14 +32,6 @@ This part focuses on object-level hallucinations.
 This part focuses on both object- and attribute-level hallucinations.
 <p align="center">
     <img src="./assets/tab2.png" width="60%">
-</p>
-
-
-## ▶️ Demo
-Please feel free to try our [Online Demo](https://deb6a97bae6fab67ae.gradio.live/)!
-
-<p align="center">
-<img src="./assets/example_demo.png" width="96%" height="96%">
 </p>
 
 ## 🛠️ Preliminary
@@ -71,48 +63,24 @@ python -m spacy download en_core_web_sm
 To make corrections based on an image and a text output from MLLM, run the inference code as follows:
 
 ```Shell
-python inference.py \
-        --image-path {path/to/image} \
-        --query "Some query.(e.x. Describe this image.)" \
-        --text "Some text to be corrected." \
-        --detector-config "path/to/GroundingDINO_SwinT_OGC.py" \
-        --detector-model "path/to/groundingdino_swint_ogc.pth" \
-        --api-key "sk-xxxxxxx" \
+for task in  mme_existence mme_count mme_position mme_color pope_adversarial pope_popular pope_random
+do
+for mode in entity_extract detecte question answer
+do
+    CUDA_VISIBLE_DEVICES=1 python all_claim_generate.py \
+        --task $task \
+        --model_name minigpt \
+        --device 0 \
+        --seed 13 \
+        --method mtzr \
+        --mode $mode \
+        --rewrite
+done
+done
 
 ```
 The output text will be printed in the terminal, and intermediate results saved by default as ```./intermediate_view.json```.
 
-***
-
-**2. Demo setup**
-
-We use mPLUG-Owl as our default MLLM in experiments. If you wish to replicate the online demo, please clone the [project](https://github.com/X-PLUG/mPLUG-Owl) and modify the variables in https://github.com/BradyFU/Woodpecker/blob/e3fcac307cc5ff5a3dc079d9a94b924ebcdc2531/gradio_demo.py#L7 and  https://github.com/BradyFU/Woodpecker/blob/e3fcac307cc5ff5a3dc079d9a94b924ebcdc2531/gradio_demo.py#L35-L36
-
-Then simply run:
-
-```bash
-CUDA_VISIBLE_DEVICES=0,1 python gradio_demo.py
-```
-Here we put the corrector components on GPU with id 0 and mPLUG-Owl on GPU with id 1.
-
-
-
 ## 🌻 Acknowledgement
-This repository benefits from [mPLUG-Owl](https://github.com/X-PLUG/mPLUG-Owl), [GroundingDINO](https://github.com/IDEA-Research/GroundingDINO), [BLIP-2](https://huggingface.co/Salesforce/blip2-flan-t5-xxl), and [LLaMA-Adapter](https://github.com/OpenGVLab/LLaMA-Adapter). Thanks for their awesome works.
-
-
-
-## 📑 Citation
-If you find our project helpful to your research, please consider citing:
-```
-@article{yin2024woodpecker,
-  title={Woodpecker: Hallucination correction for multimodal large language models},
-  author={Yin, Shukang and Fu, Chaoyou and Zhao, Sirui and Xu, Tong and Wang, Hao and Sui, Dianbo and Shen, Yunhang and Li, Ke and Sun, Xing and Chen, Enhong},
-  journal={Science China Information Sciences},
-  volume={67},
-  number={12},
-  pages={220105},
-  year={2024},
-  publisher={Springer}
-}
+This repository benefits from [Woodpecker](https://github.com/BradyFU/Woodpecker), [mPLUG-Owl](https://github.com/X-PLUG/mPLUG-Owl), [GroundingDINO](https://github.com/IDEA-Research/GroundingDINO), [BLIP-2](https://huggingface.co/Salesforce/blip2-flan-t5-xxl), and [LLaMA-Adapter](https://github.com/OpenGVLab/LLaMA-Adapter). Thanks for their awesome works.
 ```
