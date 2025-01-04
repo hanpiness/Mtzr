@@ -1,12 +1,4 @@
 # Training-free and Zero-shot Regeneration for Hallucination Mitigation in MLLMs: Representation Understanding Perspective Training-free and Zero-shot Regeneration for Hallucination Mitigation
-
-<p align="center">
-    <img src="./assets/overall.pdf" width="75%" height="75%">
-</p>
-
-
-<font size=7><div align='center' > :grapes: \[[Read our arXiv Paper](https://arxiv.org/pdf/2310.16045.pdf)\] &nbsp; :apple: \[[Try our Demo](https://deb6a97bae6fab67ae.gradio.live/)\] </div></font>
-
 -----------------
 
 <p align="center">
@@ -40,13 +32,6 @@ This part focuses on object-level hallucinations.
 This part focuses on both object- and attribute-level hallucinations.
 <p align="center">
     <img src="./assets/tab2.png" width="60%">
-</p>
-
-### 📍 LLaVA-QA90 Result
-
-We also propose to perform open-ended evaluation directly via the recently opened GPT-4V interface. We design two metrics: accuracy and detailedness.
-<p align="center">
-    <img src="./assets/tab3.png" width="50%">
 </p>
 
 
