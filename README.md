@@ -42,7 +42,7 @@ python -m spacy download en_core_web_md
 python -m spacy download en_core_web_sm
 ```
 
-3. GroundingDINO
+3. Install GroundingDINO required packages
 
 - Install GroundingDINO following the instructions in [Link](https://github.com/IDEA-Research/GroundingDINO).
 
