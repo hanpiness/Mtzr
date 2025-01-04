@@ -53,16 +53,16 @@ To make corrections based on an image and a text output from MLLM, run the infer
 for task in  mme_existence mme_count mme_position mme_color pope_adversarial pope_popular pope_random
 do
 for mode in entity_extract detecte question answer
-    do
-        CUDA_VISIBLE_DEVICES=1 python all_claim_generate.py \
-            --task $task \
-            --model_name minigpt \
-            --device 0 \
-            --seed 13 \
-            --method mtzr \
-            --mode $mode \
-            --rewrite
-    done
+do
+    CUDA_VISIBLE_DEVICES=1 python all_claim_generate.py \
+        --task $task \
+        --model_name minigpt \
+        --device 0 \
+        --seed 13 \
+        --method mtzr \
+        --mode $mode \
+        --rewrite
+done
 done
 
 ```
