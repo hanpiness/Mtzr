@@ -26,8 +26,8 @@ This part focuses on both object- and attribute-level hallucinations.
 1. Create conda environment
 
 ```bash
-conda create -n corrector python=3.10
-conda activate corrector
+conda create -n mtzr python=3.10
+conda activate mtzr
 pip install -r requirements.txt
 ```
 
@@ -53,20 +53,19 @@ To make corrections based on an image and a text output from MLLM, run the infer
 for task in  mme_existence mme_count mme_position mme_color pope_adversarial pope_popular pope_random
 do
 for mode in entity_extract detecte question answer
-do
-    CUDA_VISIBLE_DEVICES=1 python all_claim_generate.py \
-        --task $task \
-        --model_name minigpt \
-        --device 0 \
-        --seed 13 \
-        --method mtzr \
-        --mode $mode \
-        --rewrite
-done
+    do
+        CUDA_VISIBLE_DEVICES=1 python all_claim_generate.py \
+            --task $task \
+            --model_name minigpt \
+            --device 0 \
+            --seed 13 \
+            --method mtzr \
+            --mode $mode \
+            --rewrite
+    done
 done
 
 ```
-The output text will be printed in the terminal, and intermediate results saved by default as ```./intermediate_view.json```.
 
 ## 🌻 Acknowledgement
 This repository benefits from [Woodpecker](https://github.com/BradyFU/Woodpecker), [mPLUG-Owl](https://github.com/X-PLUG/mPLUG-Owl), [GroundingDINO](https://github.com/IDEA-Research/GroundingDINO), [BLIP-2](https://huggingface.co/Salesforce/blip2-flan-t5-xxl), and [LLaMA-Adapter](https://github.com/OpenGVLab/LLaMA-Adapter). Thanks for their awesome works.
