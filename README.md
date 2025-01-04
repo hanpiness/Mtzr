@@ -41,14 +41,16 @@ python -m spacy download en_core_web_lg
 python -m spacy download en_core_web_md
 python -m spacy download en_core_web_sm
 ```
-- For our **Open-set Detector**. Install GroundingDINO following the instructions in [Link](https://github.com/IDEA-Research/GroundingDINO).
+
+3. GroundingDINO
+
+- Install GroundingDINO following the instructions in [Link](https://github.com/IDEA-Research/GroundingDINO).
 
 ## Usage
 
 **1. Inference**
 
-To make corrections based on an image and a text output from MLLM, run the inference code as follows:
-
+Run the following inference code to correct the MLLM output:
 ```Shell
 for task in  mme_existence mme_count mme_position mme_color pope_adversarial pope_popular pope_random
 do
